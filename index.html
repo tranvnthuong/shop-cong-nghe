@@ -64,7 +64,7 @@
       aria-labelledby="productModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="productModalLabel">
@@ -122,7 +122,6 @@
                 <p id="modalProductDescription"></p>
               </div>
             </div>
-            <div id="buyProductForm"></div>
           </div>
           <div class="modal-footer">
             <button
@@ -131,6 +130,74 @@
               data-bs-dismiss="modal"
             >
               Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="buyProductModal"
+      tabindex="-1"
+      aria-labelledby="buyProductModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="buyProductModalLabel">Mua sản phẩm</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              style="background-color: #6666c2"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="productForm">
+              <div class="d-flex flex-column gap-1" id="listProducts"></div>
+              <form>
+                <div class="mb-3">
+                  <label for="phone-number" class="col-form-label"
+                    >Số điện thoại:</label
+                  >
+                  <input type="text" class="form-control" id="phone-number" />
+                </div>
+                <div class="mb-3">
+                  <label for="buy-gmail" class="col-form-label">Gmail:</label>
+                  <input type="text" class="form-control" id="buy-gmail" />
+                </div>
+                <div class="mb-3">
+                  <label for="buy-address" class="col-form-label"
+                    >Địa chỉ:</label
+                  >
+                  <input type="text" class="form-control" id="buy-address" />
+                </div>
+                <div class="mb-3">
+                  <label for="buy-message" class="col-form-label"
+                    >Lời nhắn:</label
+                  >
+                  <textarea class="form-control" id="buy-message"></textarea>
+                </div>
+              </form>
+              <div class="example-request">
+                <span id="exampleMessage"></span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Hủy
+            </button>
+            <button type="button" class="btn btn-primary" id="sendPurchaseForm">
+              Submit
             </button>
           </div>
         </div>

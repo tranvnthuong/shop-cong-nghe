@@ -113,7 +113,50 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event) {
       event.stopPropagation();
     }
-    alert(`Bạn đã mua sản phẩm có ID: ${productId}`);
+    const product = products.filter((item) => item.id === productId)[0];
+
+    let responseElement = document.getElementById("exampleMessage");
+    responseElement.innerHTML = "";
+    let listProducts = document.getElementById("listProducts");
+    listProducts.innerHTML = "";
+    let total = 0;
+    let spanElement;
+    Array.from([product]).forEach((product) => {
+      total += product.price;
+      spanElement = document.createElement("span");
+      let quantity = product.quantity ?? 1;
+      spanElement.innerText = `SL: ${quantity} - SP: ${product.name}`;
+      listProducts.appendChild(spanElement);
+    });
+    spanElement = document.createElement("span");
+    spanElement.className = "d-flex justify-content-between";
+    spanElement.innerHTML = `
+        <strong>Tổng cộng:</strong>
+        <strong>${total.toLocaleString()} VND</strong>`;
+    listProducts.appendChild(spanElement);
+
+    document.getElementById("sendPurchaseForm").onclick = function (event) {
+      event.preventDefault();
+      let phoneNumber = document.getElementById("phone-number").value;
+      let gmail = document.getElementById("buy-gmail").value;
+      let address = document.getElementById("buy-address").value;
+      let message = document.getElementById("buy-message").value;
+      const request = {
+        products: product,
+        Buyer: {
+          phoneNumber,
+          gmail,
+          address,
+          message,
+        },
+      };
+      responseElement.innerText = `Request:\n${JSON.stringify(request)}`;
+    };
+
+    const myModal = new bootstrap.Modal(
+      document.getElementById("buyProductModal")
+    );
+    myModal.show();
   };
 
   // Hàm thêm sản phẩm vào giỏ hàng
@@ -230,9 +273,68 @@ document.addEventListener("DOMContentLoaded", () => {
         <strong>Tổng cộng:</strong>
         <strong>${total.toLocaleString()} VND</strong>
       </div>
-      <button class="btn btn-success w-100 mt-3">Thanh toán</button>
+      <button class="btn btn-success w-100 mt-3" onclick="cartCheckout()">Thanh toán</button>
     `;
   }
+  window.cartCheckout = function () {
+    let cart = JSON.parse(localStorage.getItem("shopping-cart")) || [];
+
+    let responseElement = document.getElementById("exampleMessage");
+    responseElement.innerHTML = "";
+    let listProducts = document.getElementById("listProducts");
+    listProducts.innerHTML = "";
+    let total = 0;
+    let spanElement;
+    cart.forEach((product) => {
+      spanElement = document.createElement("span");
+      let quantity = product.quantity ?? 1;
+      spanElement.innerText = `SL: ${quantity} - SP: ${product.name}`;
+      listProducts.appendChild(spanElement);
+      total += product.price * quantity;
+    });
+    spanElement = document.createElement("span");
+    spanElement.className = "d-flex justify-content-between";
+    spanElement.innerHTML = `
+        <strong>Tổng cộng:</strong>
+        <strong>${total.toLocaleString()} VND</strong>`;
+    listProducts.appendChild(spanElement);
+
+    document.getElementById("sendPurchaseForm").onclick = function (event) {
+      event.preventDefault();
+      let phoneNumber = document.getElementById("phone-number").value;
+      let gmail = document.getElementById("buy-gmail").value;
+      let address = document.getElementById("buy-address").value;
+      let message = document.getElementById("buy-message").value;
+
+      const result = cart.reduce((obj, tag) => {
+        obj["id"] = tag.id;
+        obj["name"] = tag.name;
+        obj["description"] = tag.description;
+        obj["amount"] = tag.amount;
+        obj["price"] = tag.price;
+        obj["date"] = tag.date;
+        obj["point"] = tag.point;
+        obj["images"] = tag.images;
+        obj["isSell"] = tag.isSell;
+        return obj;
+      }, {});
+      const request = {
+        products: { ...cart },
+        Buyer: {
+          phoneNumber,
+          gmail,
+          address,
+          message,
+        },
+      };
+      responseElement.innerText = `Request:\n${JSON.stringify(request)}`;
+    };
+
+    const myModal = new bootstrap.Modal(
+      document.getElementById("buyProductModal")
+    );
+    myModal.show();
+  };
 
   // Hàm xóa sản phẩm khỏi giỏ hàng
   window.removeItem = function (productId) {

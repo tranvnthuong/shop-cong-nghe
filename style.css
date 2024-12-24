@@ -92,7 +92,8 @@ header .nav-link:hover {
 
 /* Giới hạn nội dung card-text thành 2 dòng */
 .product-container .card-text,
-.hotproducts-text p {
+.hotproducts-text p,
+#listProducts span {
   font-size: 1rem; /* Kích thước font cho nội dung */
   display: -webkit-box; /* Sử dụng flexbox để hỗ trợ line-clamp */
   -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
@@ -103,7 +104,6 @@ header .nav-link:hover {
 
 .hotproducts-text p {
   -webkit-line-clamp: 8; /* Giới hạn 2 dòng */
-  -webkit-box-orient: vertical; /* Định hướng theo chiều dọc */
 }
 
 .product-container .btn-primary {
@@ -200,4 +200,18 @@ a {
 
 #productDetails h5 {
   color: #6666c2;
+}
+
+#listProducts span {
+  -webkit-line-clamp: 1;
+  padding: 5px;
+  border-radius: 4px;
+  color: #fff;
+  background-color: #6666c2;
+}
+
+.example-request {
+  padding: 10px;
+  border-bottom: 1px solid #aaa;
+  border-top: 1px solid #aaa;
 }
