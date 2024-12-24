@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TECHNOLOGY SHOP</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link href="./style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">SHOP CÔNG NGHỆ</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Trang chủ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#introduce">Giới thiệu</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#hotproducts">Hot</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#products">Sản phẩm</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#about">Liên hệ</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="productModal"
+      tabindex="-1"
+      aria-labelledby="productModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="productModalLabel">
+              Chi Tiết sản phẩm
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              style="background-color: #6666c2"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="productDetails">
+              <!-- Carousel Thứ 2 -->
+              <div
+                id="modalCarousel"
+                class="carousel slide"
+                data-bs-ride="carousel"
+              >
+                <!-- Indicators -->
+                <div class="carousel-indicators"></div>
+
+                <!-- Slides -->
+                <div class="carousel-inner"></div>
+
+                <!-- Navigation Controls -->
+                <button
+                  class="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#modalCarousel"
+                  data-bs-slide="prev"
+                >
+                  <span
+                    class="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button
+                  class="carousel-control-next"
+                  type="button"
+                  data-bs-target="#modalCarousel"
+                  data-bs-slide="next"
+                >
+                  <span
+                    class="carousel-control-next-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+              <div class="mt-4">
+                <p id="modalProductDescription"></p>
+              </div>
+            </div>
+            <div id="buyProductForm"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid d-flex flex-column gap-4">
+      <div id="introduce">
+        <h4>Giới thiệu</h4>
+        <p>
+          Cửa hàng Công Nghệ xin chào quý khách!<br />Tại đây chung tôi chuyên
+          bán sản phẩm liên quan đến công nghệ!
+        </p>
+      </div>
+      <div class="row" id="hotproducts">
+        <h4>Sản phẩm nổi bật</h4>
+        <div
+          id="hotCarousel"
+          class="carousel slide col-7 col-md-6 col-lg-5"
+          data-bs-ride="carousel"
+        >
+          <!-- Indicators (dấu chấm) -->
+          <div class="carousel-indicators"></div>
+
+          <!-- Các slide -->
+          <div class="carousel-inner"></div>
+
+          <!-- Nút điều hướng -->
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#hotCarousel"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#hotCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <div class="hotproducts-text text-center col-5 col-md-6 col-lg-7">
+          <h6>Sản phẩm 1</h6>
+          <p>Mô tả sản phẩm 1</p>
+        </div>
+      </div>
+      <div id="products">
+        <h4>Danh mục hàng</h4>
+        <div class="product-container row g-3 d-flex flex-wrap"></div>
+      </div>
+      <div id="about">
+        <div class="footer-content">
+          <h4>Shop Đồ Công Nghệ</h4>
+          <p>Địa chỉ: 123 Đường Công Nghệ, Thành phố Hồ Chí Minh, Việt Nam</p>
+          <p>Email: contact@shopdocongnghe.com</p>
+          <p>Số điện thoại: (028) 1234 5678</p>
+        </div>
+        <div class="footer-links">
+          <h5>Kết nối với chúng tôi</h5>
+          <a
+            href="https://facebook.com/thuongwbw"
+            target="_blank"
+            style="color: #fff; margin: 0 10px"
+            >Facebook</a
+          >
+          <a href="#" style="color: #fff; margin: 0 10px">Instagram</a>
+          <a href="#" style="color: #fff; margin: 0 10px">Twitter</a>
+        </div>
+        <div class="footer-bottom mt-4">
+          <p>© 2025 Shop Đồ Công Nghệ - TranVanThuong.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nút mở Offcanvas -->
+    <button
+      class="shopping-cart btn btn-primary"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#cartOffcanvas"
+      aria-controls="cartOffcanvas"
+    >
+      <i class="fa-solid fa-cart-shopping"></i>
+    </button>
+
+    <!-- Offcanvas Giỏ Hàng -->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="cartOffcanvas"
+      aria-labelledby="cartOffcanvasLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 id="cartOffcanvasLabel">Giỏ Hàng</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+          style="background-color: #6666c2"
+        ></button>
+      </div>
+      <div class="offcanvas-body"></div>
+    </div>
+
+    <!-- Nội dung trang -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

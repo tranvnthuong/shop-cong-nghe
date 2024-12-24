@@ -1,0 +1,203 @@
+/* Toàn bộ trang */
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  background-color: #1e1e2f;
+  color: #f0f0f5;
+}
+
+header .navbar {
+  background-color: #141428;
+  border-bottom: 2px solid #6666c2;
+}
+
+header .navbar-brand {
+  color: #6666c2 !important;
+  font-weight: bold;
+}
+
+header .nav-link {
+  color: #141428 !important;
+}
+
+header .nav-link:hover {
+  color: #6666c2 !important;
+}
+
+.container-fluid {
+  padding: 0 25px;
+}
+
+#introduce {
+  margin-top: 20px;
+}
+
+/* Giới thiệu */
+#introduce h4,
+#hotproducts h4,
+#products h4,
+#about h4 {
+  color: #6666c2;
+  text-transform: uppercase;
+  border-bottom: 2px solid #6666c2;
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Carousel */
+#hotproducts .carousel-inner img {
+  height: 300px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(94, 94, 191, 0.7);
+}
+
+/* Card có chiều cao cố định */
+.product-container .card {
+  height: 450px; /* Chiều cao cố định */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Đảm bảo nội dung card được căn chỉnh */
+  background-color: #2a2a40;
+  border: 1px solid #3d3d5c;
+  border-radius: 10px;
+  overflow: hidden; /* Đảm bảo không có nội dung vượt ra ngoài */
+}
+
+/* Đảm bảo ảnh không ảnh hưởng đến kích thước card */
+.product-container .card img {
+  height: 200px; /* Chiều cao cố định cho ảnh */
+  object-fit: cover; /* Đảm bảo ảnh vừa khít mà không biến dạng */
+  width: 100%;
+  border-bottom: 1px solid #3d3d5c;
+}
+
+/* Nội dung card */
+.product-container .card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Giới hạn tiêu đề chỉ hiển thị 1 dòng */
+.product-container .card-title,
+.hotproducts-text h6 {
+  color: #6666c2;
+  font-size: 1.2rem; /* Kích thước font cho tiêu đề */
+  white-space: nowrap; /* Không xuống dòng */
+  overflow: hidden; /* Ẩn nội dung thừa */
+  text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
+  margin-bottom: 0.5rem;
+}
+
+/* Giới hạn nội dung card-text thành 2 dòng */
+.product-container .card-text,
+.hotproducts-text p {
+  font-size: 1rem; /* Kích thước font cho nội dung */
+  display: -webkit-box; /* Sử dụng flexbox để hỗ trợ line-clamp */
+  -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
+  -webkit-box-orient: vertical; /* Định hướng theo chiều dọc */
+  overflow: hidden; /* Ẩn nội dung thừa */
+  text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
+}
+
+.hotproducts-text p {
+  -webkit-line-clamp: 8; /* Giới hạn 2 dòng */
+  -webkit-box-orient: vertical; /* Định hướng theo chiều dọc */
+}
+
+.product-container .btn-primary {
+  background-color: #6666c2;
+  border: none;
+}
+
+.product-container .btn-primary:hover {
+  background-color: #3d3d5c;
+}
+
+/* Footer */
+#about {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 2rem 0;
+  background-color: #141428;
+  border-top: 2px solid #6666c2;
+}
+
+#about p {
+  color: #b3b3d4;
+}
+
+/* Hiệu ứng hover */
+a {
+  transition: color 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.shopping-cart {
+  position: fixed;
+  top: 8%;
+  right: 2%;
+}
+
+/* offcanvas */
+.offcanvas-header {
+  background-color: #141428;
+  color: #f0f0f5;
+}
+
+.offcanvas-body {
+  background-color: #1e1e2f;
+  color: #b3b3d4;
+}
+
+.btn-close {
+  color: #fff;
+}
+
+.cart-item img {
+  box-shadow: 0px 4px 15px rgba(94, 94, 191, 0.7);
+}
+
+.btn-success {
+  background-color: #5e5ebf;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #3d3d5c;
+}
+
+#productModal {
+  box-shadow: 0px 4px 15px rgba(94, 94, 191, 0.7);
+}
+
+.modal-content {
+  background-color: #141428;
+  color: #fff; /* Màu chữ trắng */
+}
+
+/* Thay đổi màu nền phần header */
+.modal-header {
+  background-color: #141428; /* Màu nền tối hơn */
+  border-bottom: 1px solid #555; /* Viền */
+}
+
+/* Thay đổi màu nền phần footer */
+.modal-footer {
+  background-color: #141428; /* Màu nền tối hơn */
+  border-top: 1px solid #555; /* Viền */
+}
+
+#productDetails img {
+  height: 40vh;
+  object-fit: cover; /* Đảm bảo ảnh vừa khít mà không biến dạng */
+}
+
+#productDetails h5 {
+  color: #6666c2;
+}
