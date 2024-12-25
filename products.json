@@ -15,34 +15,6 @@
   },
   {
     "id": 2,
-    "name": "Laptop Dell Inspiron",
-    "description": "Laptop mạnh mẽ dành cho công việc và giải trí.",
-    "amount": 30,
-    "price": 20000000,
-    "date": "2024-01-10",
-    "point": 11,
-    "images": [
-      "https://product.hstatic.net/200000553329/product/dell-inspiron-14-5410-i5-11320h_848a8ef3ae8a4c7f9cb929224c4a9ef1.jpg",
-      "https://example.com/image2-alt.jpg"
-    ],
-    "isSell": true
-  },
-  {
-    "id": 3,
-    "name": "Điện Thoại Samsung Galaxy",
-    "description": "Điện thoại thông minh với camera vượt trội.",
-    "amount": 20,
-    "price": 12000000,
-    "date": "2024-01-15",
-    "point": 29,
-    "images": [
-      "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/s/s/ss-s24-ultra-xam-222_1.png",
-      "https://example.com/image3-alt.jpg"
-    ],
-    "isSell": true
-  },
-  {
-    "id": 4,
     "name": "Loa Bluetooth JBL",
     "description": "Loa di động với âm thanh sống động.",
     "amount": 40,
@@ -56,7 +28,7 @@
     "isSell": true
   },
   {
-    "id": 5,
+    "id": 3,
     "name": "Chuột Gaming Logitech",
     "description": "Chuột chơi game với độ chính xác cao.",
     "amount": 60,
@@ -66,6 +38,48 @@
     "images": [
       "https://product.hstatic.net/200000680839/product/mouse-logitech-g102-gen-ii-lightsync-rgb-gaming-den-chinh-hang-26_f98b90ae7f3e485f8610f75838b5b022.jpg",
       "https://example.com/image5-alt.jpg"
+    ],
+    "isSell": true
+  },
+  {
+    "id": 4,
+    "name": "Bàn Phím Cơ Corsair K70 RGB",
+    "description": "Bàn phím cơ cao cấp với đèn RGB sắc nét.",
+    "amount": 25,
+    "price": 3200000,
+    "date": "2024-01-30",
+    "point": 35,
+    "images": [
+      "https://cdn.shopify.com/s/files/1/0057/0495/0985/products/K70RGBMK.1_1024x1024.jpg?v=1603717495",
+      "https://example.com/image6-alt.jpg"
+    ],
+    "isSell": true
+  },
+  {
+    "id": 5,
+    "name": "USB Flash Drive SanDisk 128GB",
+    "description": "USB 3.0 tốc độ cao, dung lượng 128GB.",
+    "amount": 100,
+    "price": 400000,
+    "date": "2024-02-01",
+    "point": 10,
+    "images": [
+      "https://cdn.shopify.com/s/files/1/0082/2052/1723/products/sandisk-ultra-128gb-usb-flash-drive-3_300x300.jpg?v=1601516229",
+      "https://example.com/image7-alt.jpg"
+    ],
+    "isSell": true
+  },
+  {
+    "id": 6,
+    "name": "Đế Tản Nhiệt Laptop Cooler Master",
+    "description": "Đế tản nhiệt hiệu suất cao cho laptop.",
+    "amount": 15,
+    "price": 1200000,
+    "date": "2024-02-05",
+    "point": 20,
+    "images": [
+      "https://cdn.shopify.com/s/files/1/0034/3365/6549/products/sycamore_detail_2__89669.1583070529.jpg?v=1614875950",
+      "https://example.com/image8-alt.jpg"
     ],
     "isSell": true
   }
