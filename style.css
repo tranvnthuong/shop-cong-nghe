@@ -140,7 +140,7 @@ a {
 .shopping-cart-image {
   position: fixed;
   top: 5%;
-  right: 15%;
+  right: 10%;
   height: 160px;
   border-radius: 5px;
   animation: movetocart 1.2s forwards;
@@ -150,8 +150,8 @@ a {
   0% {
     transform: translateX(0);
   }
-  80% {
-    transform: translate(60%);
+  95% {
+    transform: translateX(60%);
   }
   100% {
     opacity: 0;
@@ -163,6 +163,22 @@ a {
   top: 8%;
   right: 2%;
   animation: none;
+}
+
+.shopping-cart.add-product {
+  animation: addproduct 1s forwards;
+}
+
+@keyframes addproduct {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 /* offcanvas */
 .offcanvas-header {

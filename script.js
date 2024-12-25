@@ -182,9 +182,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event) {
       event.stopPropagation();
     }
+    const cartIcon = document.querySelector(".shopping-cart");
+    cartIcon.classList.add("add-product");
+    setTimeout(() => cartIcon.classList.remove("add-product"), 1000);
 
     const product = products.filter((item) => item.id === productId)[0];
-
     const shoppingImg = document.createElement("img");
     shoppingImg.classList.add("shopping-cart-image");
     shoppingImg.setAttribute("src", product.images[0]);
