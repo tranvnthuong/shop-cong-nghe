@@ -66,7 +66,6 @@ header .nav-link:hover {
 /* Đảm bảo ảnh không ảnh hưởng đến kích thước card */
 .product-container .card img {
   height: 200px; /* Chiều cao cố định cho ảnh */
-  object-fit: cover; /* Đảm bảo ảnh vừa khít mà không biến dạng */
   width: 100%;
   border-bottom: 1px solid #3d3d5c;
 }
@@ -138,12 +137,33 @@ a {
   transition: transform 0.3s ease;
 }
 
+.shopping-cart-image {
+  position: fixed;
+  top: 5%;
+  right: 15%;
+  height: 160px;
+  border-radius: 5px;
+  animation: movetocart 1.2s forwards;
+}
+
+@keyframes movetocart {
+  0% {
+    transform: translateX(0);
+  }
+  80% {
+    transform: translate(60%);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .shopping-cart {
   position: fixed;
   top: 8%;
   right: 2%;
+  animation: none;
 }
-
 /* offcanvas */
 .offcanvas-header {
   background-color: #141428;
@@ -194,8 +214,8 @@ a {
 }
 
 #productDetails img {
-  height: 40vh;
-  object-fit: cover; /* Đảm bảo ảnh vừa khít mà không biến dạng */
+  height: 50vh;
+  object-fit: contain; /* Đảm bảo ảnh vừa khít mà không biến dạng */
 }
 
 #productDetails h5 {

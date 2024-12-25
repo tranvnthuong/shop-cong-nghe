@@ -141,6 +141,24 @@ document.addEventListener("DOMContentLoaded", () => {
       let gmail = document.getElementById("buy-gmail").value;
       let address = document.getElementById("buy-address").value;
       let message = document.getElementById("buy-message").value;
+
+      if (phoneNumber.trim() == "") {
+        responseElement.innerText = "Bạn chưa điền SDT!";
+        return;
+      }
+      if (!phoneNumber.match(/^\d+$/)) {
+        responseElement.innerText = `${phoneNumber} không phải SDT!`;
+        return;
+      }
+      if (gmail.trim() == "") {
+        responseElement.innerText = "Bạn chưa điền Gmail!";
+        return;
+      }
+      if (address.trim() == "") {
+        responseElement.innerText = "Bạn chưa điền Địa chỉ!";
+        return;
+      }
+
       const request = {
         products: product,
         Buyer: {
@@ -150,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
           message,
         },
       };
-      responseElement.innerText = `Request:\n${JSON.stringify(request)}`;
+      responseElement.innerText = `Request JSON:\n${JSON.stringify(request)}`;
     };
 
     const myModal = new bootstrap.Modal(
@@ -164,6 +182,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event) {
       event.stopPropagation();
     }
+
+    const product = products.filter((item) => item.id === productId)[0];
+
+    const shoppingImg = document.createElement("img");
+    shoppingImg.classList.add("shopping-cart-image");
+    shoppingImg.setAttribute("src", product.images[0]);
+    shoppingImg.setAttribute("alt", product.name);
+    document.body.appendChild(shoppingImg);
+    shoppingImg.addEventListener("animationend", () => {
+      shoppingImg.remove();
+    });
+
     const cart = JSON.parse(localStorage.getItem("shopping-cart")) || [];
     const existingProduct = cart.find((item) => item.id === productId);
 
@@ -243,7 +273,9 @@ document.addEventListener("DOMContentLoaded", () => {
       offcanvasBody.innerHTML += `
         <div class="cart-item">
           <div class="d-flex align-items-center mb-3">
-            <img src="${item.images[0]}" class="rounded me-3" alt="${
+            <img src="${item.images[0]}" onclick="showProduct(${
+        item.id
+      })" class="rounded me-3" alt="${
         item.name
       }" style="width: 100px; height: 100px;" />
             <div>
@@ -306,18 +338,23 @@ document.addEventListener("DOMContentLoaded", () => {
       let address = document.getElementById("buy-address").value;
       let message = document.getElementById("buy-message").value;
 
-      const result = cart.reduce((obj, tag) => {
-        obj["id"] = tag.id;
-        obj["name"] = tag.name;
-        obj["description"] = tag.description;
-        obj["amount"] = tag.amount;
-        obj["price"] = tag.price;
-        obj["date"] = tag.date;
-        obj["point"] = tag.point;
-        obj["images"] = tag.images;
-        obj["isSell"] = tag.isSell;
-        return obj;
-      }, {});
+      if (phoneNumber.trim() == "") {
+        responseElement.innerText = "Bạn chưa điền SDT!";
+        return;
+      }
+      if (!phoneNumber.match(/^\d+$/)) {
+        responseElement.innerText = `${phoneNumber} không phải SDT!`;
+        return;
+      }
+      if (gmail.trim() == "") {
+        responseElement.innerText = "Bạn chưa điền Gmail!";
+        return;
+      }
+      if (address.trim() == "") {
+        responseElement.innerText = "Bạn chưa điền Địa chỉ!";
+        return;
+      }
+
       const request = {
         products: { ...cart },
         Buyer: {
@@ -327,7 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
           message,
         },
       };
-      responseElement.innerText = `Request:\n${JSON.stringify(request)}`;
+      responseElement.innerText = `Request JSON:\n${JSON.stringify(request)}`;
     };
 
     const myModal = new bootstrap.Modal(
