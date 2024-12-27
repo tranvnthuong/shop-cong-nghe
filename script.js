@@ -1,4 +1,59 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const reloadToolTips = () => {
+    if (window.matchMedia("(hover: none)").matches) {
+      return;
+    }
+    let tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-toggle="tooltip"]')
+    );
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+      let tooltip = new bootstrap.Tooltip(tooltipTriggerEl);
+      let timer;
+
+      tooltipTriggerEl.addEventListener("mouseenter", () => {
+        timer = setTimeout(() => tooltip.hide(), 1500);
+        tooltip.show();
+      });
+
+      tooltipTriggerEl.addEventListener("mouseleave", () => {
+        clearTimeout(timer);
+        tooltip.hide();
+      });
+    });
+  };
+  reloadToolTips();
+
+  function throttle(func, interval) {
+    let lastTime = 0;
+    return function (...args) {
+      const now = Date.now();
+      if (now - lastTime >= interval) {
+        lastTime = now;
+        func.apply(this, args);
+      }
+    };
+  }
+
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+  window.onscroll = throttle(function () {
+    if (
+      document.body.scrollTop > 200 ||
+      document.documentElement.scrollTop > 200
+    ) {
+      scrollTopBtn.style.display = "flex";
+    } else {
+      scrollTopBtn.style.display = "none";
+    }
+  }, 200);
+
+  scrollTopBtn.onclick = function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   const productContainer = document.querySelector(".product-container");
   const shoppingCartButton = document.querySelector(".shopping-cart");
 
@@ -86,9 +141,9 @@ document.addEventListener("DOMContentLoaded", () => {
       productElement.className = "col-12 col-sm-6 col-md-4 col-lg-3";
       productElement.innerHTML = `
         <div class="card" onclick="showProduct(${product.id})">
-          <img src="${product.images[0]}" class="card-img-top" alt="${
-        product.name
-      }" />
+          <div class="product-img">
+            <img src="${product.images[0]}" alt="${product.name}"/>
+          </div>
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.description}</p>
