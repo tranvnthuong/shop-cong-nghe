@@ -181,7 +181,7 @@ a {
 }
 
 .card:hover {
-  transform: scale(1.05);
+  transform: translateY(-7px);
   transition: transform 0.3s ease;
 }
 
