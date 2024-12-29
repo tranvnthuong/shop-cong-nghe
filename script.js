@@ -182,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
           Thoát tìm kiếm
         </span>
         </li>`;
+        document.getElementById("searchCount").textContent = "";
         return;
       } else {
         document.getElementById(
@@ -320,6 +321,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function validateForm(phoneNumber, gmail, address) {
+    let responseElement = document.getElementById("exampleMessage");
+    if (phoneNumber.trim() == "") {
+      responseElement.innerText = "Bạn chưa điền SDT!";
+      return false;
+    }
+    if (!phoneNumber.match(/^\d+$/)) {
+      responseElement.innerText = `${phoneNumber} không phải SDT!`;
+      return false;
+    }
+    if (gmail.trim() == "") {
+      responseElement.innerText = "Bạn chưa điền Gmail!";
+      return false;
+    }
+    if (address.trim() == "") {
+      responseElement.innerText = "Bạn chưa điền Địa chỉ!";
+      return false;
+    }
+    return true;
+  }
+
   window.buyProduct = function (productId, event = null) {
     if (event) {
       event.stopPropagation();
@@ -353,33 +375,18 @@ document.addEventListener("DOMContentLoaded", () => {
       let address = document.getElementById("buy-address").value;
       let message = document.getElementById("buy-message").value;
 
-      if (phoneNumber.trim() == "") {
-        responseElement.innerText = "Bạn chưa điền SDT!";
-        return;
+      if (validateForm(phoneNumber, gmail, address)) {
+        const request = {
+          products: [{ id: productId, qty: 1 }],
+          Buyer: {
+            phoneNumber,
+            gmail,
+            address,
+            message,
+          },
+        };
+        responseElement.innerText = `Request JSON:\n${JSON.stringify(request)}`;
       }
-      if (!phoneNumber.match(/^\d+$/)) {
-        responseElement.innerText = `${phoneNumber} không phải SDT!`;
-        return;
-      }
-      if (gmail.trim() == "") {
-        responseElement.innerText = "Bạn chưa điền Gmail!";
-        return;
-      }
-      if (address.trim() == "") {
-        responseElement.innerText = "Bạn chưa điền Địa chỉ!";
-        return;
-      }
-
-      const request = {
-        products: product,
-        Buyer: {
-          phoneNumber,
-          gmail,
-          address,
-          message,
-        },
-      };
-      responseElement.innerText = `Request JSON:\n${JSON.stringify(request)}`;
     };
 
     const myModal = new bootstrap.Modal(
@@ -551,34 +558,21 @@ document.addEventListener("DOMContentLoaded", () => {
       let gmail = document.getElementById("buy-gmail").value;
       let address = document.getElementById("buy-address").value;
       let message = document.getElementById("buy-message").value;
-
-      if (phoneNumber.trim() == "") {
-        responseElement.innerText = "Bạn chưa điền SDT!";
-        return;
+      if (validateForm(phoneNumber, gmail, address)) {
+        const request = {
+          products: cart.map((product) => ({
+            id: product.id,
+            qty: product.quantity,
+          })),
+          Buyer: {
+            phoneNumber,
+            gmail,
+            address,
+            message,
+          },
+        };
+        responseElement.innerText = `Request JSON:\n${JSON.stringify(request)}`;
       }
-      if (!phoneNumber.match(/^\d+$/)) {
-        responseElement.innerText = `${phoneNumber} không phải SDT!`;
-        return;
-      }
-      if (gmail.trim() == "") {
-        responseElement.innerText = "Bạn chưa điền Gmail!";
-        return;
-      }
-      if (address.trim() == "") {
-        responseElement.innerText = "Bạn chưa điền Địa chỉ!";
-        return;
-      }
-
-      const request = {
-        products: { ...cart },
-        Buyer: {
-          phoneNumber,
-          gmail,
-          address,
-          message,
-        },
-      };
-      responseElement.innerText = `Request JSON:\n${JSON.stringify(request)}`;
     };
 
     const myModal = new bootstrap.Modal(
