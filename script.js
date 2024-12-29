@@ -559,12 +559,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("searchInput").addEventListener(
     "input",
     debounce((event) => {
-      const navigation = document.querySelector("#products nav");
       const query = event.target.value.toLowerCase();
 
       if (query.trim() === "") {
-        navigation.classList.remove("d-none");
         displayProducts(products, 1);
+        updatePagination(products, 1);
         return;
       }
       navigation.classList.add("d-none");
@@ -575,6 +574,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       });
       displayProducts(filterProducts, 1);
+      updatePagination(filterProducts, 1);
     }, 500)
   );
 
