@@ -50,6 +50,24 @@ header .nav-link:hover {
 
 #products h4 {
   margin-top: 0;
+  margin-bottom: 1.2rem;
+}
+
+#products form label {
+  position: absolute;
+  margin: -30px 0 0 10px;
+  padding: 0 5px;
+  border-radius: 5px 5px 0 0;
+  color: #000;
+  background-color: #fff;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+#searchInput:focus + label,
+#searchInput.has-value + label {
+  outline: none;
+  transform: translateY(-20px);
 }
 
 /* Carousel */
