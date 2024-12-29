@@ -31,6 +31,18 @@ header .nav-link:hover {
   padding: 0 25px;
 }
 
+.modal-footer .d-flex {
+  gap: 1px;
+}
+
+.modal-footer .d-flex span {
+  color: red;
+}
+
+.modal-footer .d-flex p {
+  margin: 0;
+}
+
 #introduce {
   margin-top: 20px;
 }
@@ -140,6 +152,7 @@ header .nav-link:hover {
 /* Giới hạn nội dung card-text thành 2 dòng */
 .product-container .card-text,
 .hotproducts-text p,
+.price-text,
 #listProducts span {
   font-size: 1rem; /* Kích thước font cho nội dung */
   display: -webkit-box; /* Sử dụng flexbox để hỗ trợ line-clamp */
@@ -151,6 +164,10 @@ header .nav-link:hover {
 
 .hotproducts-text p {
   -webkit-line-clamp: 3; /* Giới hạn 2 dòng */
+}
+
+.price-text {
+  -webkit-line-clamp: 1;
 }
 
 .product-container .btn-primary {

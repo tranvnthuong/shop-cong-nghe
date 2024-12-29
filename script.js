@@ -94,6 +94,15 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch("./products.json");
       products = await response.json();
+      products = products.map((product) => {
+        return {
+          ...product,
+          discount:
+            product.sales > 0
+              ? product.price - (product.price * product.sales) / 100
+              : product.price,
+        };
+      });
       const params = new URLSearchParams(window.location.search);
       let page;
       if (params.get("search")) {
@@ -297,6 +306,13 @@ document.addEventListener("DOMContentLoaded", () => {
     items.forEach((product) => {
       const productElement = document.createElement("div");
       productElement.className = "col-12 col-sm-6 col-md-4 col-lg-3";
+      const priceStr =
+        product.sales > 0
+          ? `<strong>₫${product.discount.toLocaleString()}</strong><del style="margin-left: 5px; font-size: 0.75rem">₫${product.price.toLocaleString()}</del>
+              <span style="padding: 0 3px; background-color: red; font-size: 0.75rem; color: white; border-radius: 4px;">${
+                product.sales
+              }%</span>`
+          : `<strong>₫${product.price.toLocaleString()}</strong>`;
       productElement.innerHTML = `
         <div class="card" onclick="showProduct(${product.id})">
           <div class="product-img">
@@ -305,14 +321,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.description}</p>
-            <p class="card-text"><strong>Giá: ${product.price.toLocaleString()} VND</strong></p>
+            <div class="price-text">${priceStr}</div>
             <div class="d-flex flex-column gap-2">
-              <button class="btn btn-primary" onclick="buyProduct(${
-                product.id
-              }, event)">Mua ngay</button>
-              <button class="btn btn-primary" onclick="addCart(${
-                product.id
-              }, event)">Thêm vào giỏ <i class="fa-solid fa-cart-shopping"></i></button>
+              <button class="btn btn-primary" onclick="buyProduct(${product.id}, event)">Mua ngay</button>
+              <button class="btn btn-primary" onclick="addCart(${product.id}, event)">Thêm vào giỏ <i class="fa-solid fa-cart-shopping"></i></button>
             </div>
           </div>
         </div>
@@ -352,20 +364,17 @@ document.addEventListener("DOMContentLoaded", () => {
     responseElement.innerHTML = "";
     let listProducts = document.getElementById("listProducts");
     listProducts.innerHTML = "";
-    let total = 0;
-    let spanElement;
-    Array.from([product]).forEach((product) => {
-      total += product.price;
-      spanElement = document.createElement("span");
-      let quantity = product.quantity ?? 1;
-      spanElement.innerText = `SL: ${quantity} - SP: ${product.name}`;
-      listProducts.appendChild(spanElement);
-    });
+
+    let spanElement = document.createElement("span");
+    spanElement.innerText = `SL: 1 - SP: ${product.name}`;
+    listProducts.appendChild(spanElement);
+
     spanElement = document.createElement("span");
     spanElement.className = "d-flex justify-content-between";
     spanElement.innerHTML = `
         <strong>Tổng cộng:</strong>
-        <strong>${total.toLocaleString()} VND</strong>`;
+        <strong>${product.discount.toLocaleString()} VND</strong>`;
+
     listProducts.appendChild(spanElement);
 
     document.getElementById("sendPurchaseForm").onclick = function (event) {
@@ -421,12 +430,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (existingProduct) {
       existingProduct.quantity += 1;
     } else {
-      const product = products.find((p) => p.id === productId);
       if (product) {
         cart.push({ ...product, quantity: 1 });
       }
     }
-
+    console.log(cart);
     localStorage.setItem("shopping-cart", JSON.stringify(cart));
     updateCartOffcanvas();
     updateCartCount();
@@ -439,6 +447,20 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("productModalLabel").textContent = product.name;
     document.getElementById("modalProductDescription").textContent =
       product.description;
+
+    const priceStr =
+      product.sales > 0
+        ? `<p>Giá gốc: <del>${product.price.toLocaleString()} VND</del> <span>⬇${
+            product.sales
+          }%</span></p>
+              <p><strong>Chỉ còn: ${product.discount.toLocaleString()} VND</strong></p>`
+        : `<p><strong>Giá bán: ${product.price.toLocaleString()} VND</strong></p>`;
+
+    document.getElementById("showPrice").innerHTML = priceStr;
+    document.getElementById("buyNow").onclick = function () {
+      buyProduct(productId);
+    };
+
     _carouselIndicators.innerHTML = "";
     _carouselInner.innerHTML = "";
     product.images.forEach((image, index) => {
@@ -490,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let total = 0;
 
     cart.forEach((item) => {
-      total += item.price * item.quantity;
+      total += item.discount * item.quantity;
       offcanvasBody.innerHTML += `
         <div class="cart-item">
           <div class="d-flex align-items-center mb-3">
@@ -501,7 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }" style="width: 100px; height: 100px;" />
             <div>
               <h6 class="mb-0">${item.name}</h6>
-              <small>Giá: ${item.price.toLocaleString()} VND</small><br />
+              <small>Giá: ${item.discount.toLocaleString()} VND</small><br />
               <div class="d-flex align-items-center gap-2 mt-2">
                 <button class="btn btn-sm btn-danger" onclick="removeItem(${
                   item.id
@@ -536,6 +558,7 @@ document.addEventListener("DOMContentLoaded", () => {
     responseElement.innerHTML = "";
     let listProducts = document.getElementById("listProducts");
     listProducts.innerHTML = "";
+
     let total = 0;
     let spanElement;
     cart.forEach((product) => {
@@ -543,8 +566,9 @@ document.addEventListener("DOMContentLoaded", () => {
       let quantity = product.quantity ?? 1;
       spanElement.innerText = `SL: ${quantity} - SP: ${product.name}`;
       listProducts.appendChild(spanElement);
-      total += product.price * quantity;
+      total += product.discount * quantity;
     });
+
     spanElement = document.createElement("span");
     spanElement.className = "d-flex justify-content-between";
     spanElement.innerHTML = `
