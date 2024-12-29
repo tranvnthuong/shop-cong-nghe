@@ -68,31 +68,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const _carouselIndicators = document.querySelector(
     "#modalCarousel .carousel-indicators"
   );
-  // Hàm fetch dữ liệu từ file products.json
+
   let products;
   async function fetchProducts() {
     try {
       const response = await fetch("./products.json");
       products = await response.json();
-      displayProducts(products);
+      displayProducts(products, 1);
+      updatePagination(products, 1);
       displayHotProducts(products);
     } catch (error) {
       console.error("Lỗi khi tải sản phẩm:", error);
     }
   }
 
-  // Hiển thị sản phẩm nổi bật
   function displayHotProducts(products) {
     const topProducts = products
       .filter((product) => product.point)
-      .sort((a, b) => b.point - a.point) // Sắp xếp theo điểm từ cao xuống thấp
-      .slice(0, 5); // Lấy 3 sản phẩm có điểm cao nhất
+      .sort((a, b) => b.point - a.point)
+      .slice(0, 5);
 
-    carouselInner.innerHTML = ""; // Xóa nội dung cũ
+    carouselInner.innerHTML = "";
     carouselIndicators.innerHTML = "";
 
     topProducts.forEach((product, index) => {
-      // Tạo indicator
       const indicator = document.createElement("button");
       indicator.type = "button";
       indicator.setAttribute("data-bs-target", "#hotCarousel");
@@ -103,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       carouselIndicators.appendChild(indicator);
 
-      // Tạo slide
       const carouselItem = document.createElement("div");
       carouselItem.className = "carousel-item";
       if (index === 0) carouselItem.classList.add("active");
@@ -113,10 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
       carouselInner.appendChild(carouselItem);
     });
 
-    // Cập nhật thông tin sản phẩm đầu tiên
     updateHotProductText(topProducts[0]);
 
-    // Thêm sự kiện khi chuyển slide
     const carousel = document.querySelector("#hotCarousel");
     carousel.addEventListener("slide.bs.carousel", (event) => {
       const newIndex = event.to;
@@ -124,7 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cập nhật thông tin sản phẩm trong phần text (#hotproducts-text)
   function updateHotProductText(product) {
     const hotProductTitle = hotproductsText.querySelector("h6");
     const hotProductDescription = hotproductsText.querySelector("p");
@@ -133,10 +128,70 @@ document.addEventListener("DOMContentLoaded", () => {
     hotProductDescription.textContent = product.description;
   }
 
-  // Hàm hiển thị danh sách sản phẩm
-  function displayProducts(products) {
-    productContainer.innerHTML = ""; // Xóa nội dung cũ
-    products.forEach((product) => {
+  function updatePagination(data, currentPage = 1) {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+
+    const prevLi = document.createElement("li");
+    prevLi.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
+    prevLi.innerHTML = `<a class="page-link" href="#products" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>`;
+    prevLi.addEventListener("click", () => {
+      if (currentPage > 1) {
+        displayProducts(data, currentPage - 1);
+        updatePagination(data, currentPage - 1);
+      }
+    });
+    pagination.appendChild(prevLi);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const li = document.createElement("li");
+      li.className = `page-item ${i === currentPage ? "active" : ""}`;
+      li.innerHTML = `<a class="page-link" href="#products">${i}</a>`;
+      li.addEventListener("click", () => {
+        displayProducts(data, i);
+        updatePagination(data, i);
+      });
+      pagination.appendChild(li);
+    }
+
+    const nextLi = document.createElement("li");
+    nextLi.className = `page-item ${
+      currentPage === totalPages ? "disabled" : ""
+    }`;
+    nextLi.innerHTML = `<a class="page-link" href="#products" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>`;
+    nextLi.addEventListener("click", () => {
+      if (currentPage < totalPages) {
+        displayProducts(data, currentPage + 1);
+        updatePagination(data, currentPage + 1);
+      }
+    });
+    reloadToolTips();
+    pagination.appendChild(nextLi);
+  }
+
+  const screenWidth = window.innerWidth;
+  const itemsPerPage =
+    screenWidth >= 1200
+      ? 4 * 3
+      : screenWidth >= 992
+      ? 3 * 3
+      : screenWidth >= 576
+      ? 2 * 3
+      : 1 * 3;
+
+  function displayProducts(products, page = 1) {
+    productContainer.innerHTML = "";
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const items = products.slice(start, end);
+    items.forEach((product) => {
       const productElement = document.createElement("div");
       productElement.className = "col-12 col-sm-6 col-md-4 col-lg-3";
       productElement.innerHTML = `
@@ -163,7 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Hàm mua sản phẩm
   window.buyProduct = function (productId, event = null) {
     if (event) {
       event.stopPropagation();
@@ -237,6 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event) {
       event.stopPropagation();
     }
+
     const cartIcon = document.querySelector(".shopping-cart");
     cartIcon.classList.add("add-product");
     setTimeout(() => cartIcon.classList.remove("add-product"), 1000);
@@ -481,7 +536,48 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
   document.head.appendChild(style);
 
-  // Khởi động
+  if (!String.prototype.includes) {
+    String.prototype.includes = function (search, start) {
+      if (typeof start !== "number") {
+        start = 0;
+      }
+      if (start + search.length > this.length) {
+        return false;
+      }
+      return this.indexOf(search, start) !== -1;
+    };
+  }
+
+  function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+
+  document.getElementById("searchInput").addEventListener(
+    "input",
+    debounce((event) => {
+      const navigation = document.querySelector("#products nav");
+      const query = event.target.value.toLowerCase();
+
+      if (query.trim() === "") {
+        navigation.classList.remove("d-none");
+        displayProducts(products, 1);
+        return;
+      }
+      navigation.classList.add("d-none");
+      const filterProducts = products.filter((product) => {
+        return (
+          product.name.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query)
+        );
+      });
+      displayProducts(filterProducts, 1);
+    }, 500)
+  );
+
   fetchProducts();
   updateCartOffcanvas();
   updateCartCount();

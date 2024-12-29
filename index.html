@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
     <title>TECHNOLOGY SHOP</title>
     <link
@@ -222,13 +222,10 @@
           class="carousel slide col-7 col-md-6 col-lg-5"
           data-bs-ride="carousel"
         >
-          <!-- Indicators (dấu chấm) -->
           <div class="carousel-indicators"></div>
 
-          <!-- Các slide -->
           <div class="carousel-inner"></div>
 
-          <!-- Nút điều hướng -->
           <button
             class="carousel-control-prev"
             type="button"
@@ -255,7 +252,20 @@
       </div>
       <div id="products">
         <h4>Danh mục hàng</h4>
+        <form class="form-inline mb-3">
+          <input
+            id="searchInput"
+            class="form-control"
+            type="search"
+            placeholder="Tìm kiếm sản phẩm..."
+            autocomplete="off"
+            aria-label="Search"
+          />
+        </form>
         <div class="product-container row g-4 d-flex flex-wrap"></div>
+        <nav class="mt-4 d-flex justify-content-center">
+          <ul class="pagination" id="pagination"></ul>
+        </nav>
       </div>
       <div id="about">
         <div class="footer-content">
