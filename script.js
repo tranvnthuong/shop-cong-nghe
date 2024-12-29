@@ -34,6 +34,26 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+
+  if (!String.prototype.includes) {
+    String.prototype.includes = function (search, start) {
+      if (typeof start !== "number") {
+        start = 0;
+      }
+      if (start + search.length > this.length) {
+        return false;
+      }
+      return this.indexOf(search, start) !== -1;
+    };
+  }
+
   const scrollTopBtn = document.getElementById("scrollTopBtn");
 
   window.onscroll = throttle(function () {
@@ -74,8 +94,18 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch("./products.json");
       products = await response.json();
-      displayProducts(products, 1);
-      updatePagination(products, 1);
+      const params = new URLSearchParams(window.location.search);
+      let page;
+      if (params.get("search")) {
+        let query = params.get("search");
+        page = parseInt(params.get("page")) || 1;
+        document.getElementById("searchInput").value = query;
+        searchProducts(query, page);
+      } else {
+        page = parseInt(params.get("product-page")) || 1;
+        displayProducts(products, page);
+        updatePagination(products, page);
+      }
       displayHotProducts(products);
     } catch (error) {
       console.error("Lỗi khi tải sản phẩm:", error);
@@ -128,19 +158,36 @@ document.addEventListener("DOMContentLoaded", () => {
     hotProductDescription.textContent = product.description;
   }
 
+  let searchProduct = null;
   function updatePagination(data, currentPage = 1) {
     const pagination = document.getElementById("pagination");
     pagination.innerHTML = "";
     const totalPages = Math.ceil(data.length / itemsPerPage);
 
+    const params = new URLSearchParams(window.location.search);
+    if (searchProduct) {
+      params.set("search", searchProduct);
+      params.set("page", currentPage);
+      params.delete("product-page");
+    } else {
+      params.set("product-page", currentPage);
+      params.delete("search");
+      params.delete("page");
+    }
+    window.history.pushState({}, "", `?${params.toString()}`);
+
     const prevLi = document.createElement("li");
     prevLi.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-    prevLi.innerHTML = `<a class="page-link" href="#products" aria-label="Previous">
+    prevLi.innerHTML = `<a class="page-link" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
         <span class="sr-only">Previous</span>
       </a>`;
-    prevLi.addEventListener("click", () => {
+    prevLi.addEventListener("click", (e) => {
+      e.preventDefault();
       if (currentPage > 1) {
+        document
+          .getElementById("products")
+          .scrollIntoView({ behavior: "smooth" });
         displayProducts(data, currentPage - 1);
         updatePagination(data, currentPage - 1);
       }
@@ -150,8 +197,12 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i = 1; i <= totalPages; i++) {
       const li = document.createElement("li");
       li.className = `page-item ${i === currentPage ? "active" : ""}`;
-      li.innerHTML = `<a class="page-link" href="#products">${i}</a>`;
-      li.addEventListener("click", () => {
+      li.innerHTML = `<a class="page-link">${i}</a>`;
+      li.addEventListener("click", (e) => {
+        e.preventDefault();
+        document
+          .getElementById("products")
+          .scrollIntoView({ behavior: "smooth" });
         displayProducts(data, i);
         updatePagination(data, i);
       });
@@ -162,12 +213,16 @@ document.addEventListener("DOMContentLoaded", () => {
     nextLi.className = `page-item ${
       currentPage === totalPages ? "disabled" : ""
     }`;
-    nextLi.innerHTML = `<a class="page-link" href="#products" aria-label="Next">
+    nextLi.innerHTML = `<a class="page-link" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
         <span class="sr-only">Next</span>
       </a>`;
-    nextLi.addEventListener("click", () => {
+    nextLi.addEventListener("click", (e) => {
+      e.preventDefault();
       if (currentPage < totalPages) {
+        document
+          .getElementById("products")
+          .scrollIntoView({ behavior: "smooth" });
         displayProducts(data, currentPage + 1);
         updatePagination(data, currentPage + 1);
       }
@@ -185,6 +240,31 @@ document.addEventListener("DOMContentLoaded", () => {
       : screenWidth >= 576
       ? 2 * 3
       : 1 * 3;
+
+  function searchProducts(query, page) {
+    query = query.toLowerCase();
+
+    if (query.trim() === "") {
+      searchProduct = null;
+      displayProducts(products, 1);
+      updatePagination(products, 1);
+      return;
+    }
+    searchProduct = query;
+    const filterProducts = products.filter((product) => {
+      return (
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query)
+      );
+    });
+    displayProducts(filterProducts, page);
+    updatePagination(filterProducts, page);
+  }
+
+  document.getElementById("searchInput").addEventListener(
+    "input",
+    debounce((event) => searchProducts(event.target.value, 1), 500)
+  );
 
   function displayProducts(products, page = 1) {
     productContainer.innerHTML = "";
@@ -535,48 +615,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   `;
   document.head.appendChild(style);
-
-  if (!String.prototype.includes) {
-    String.prototype.includes = function (search, start) {
-      if (typeof start !== "number") {
-        start = 0;
-      }
-      if (start + search.length > this.length) {
-        return false;
-      }
-      return this.indexOf(search, start) !== -1;
-    };
-  }
-
-  function debounce(func, delay) {
-    let timer;
-    return function (...args) {
-      clearTimeout(timer);
-      timer = setTimeout(() => func.apply(this, args), delay);
-    };
-  }
-
-  document.getElementById("searchInput").addEventListener(
-    "input",
-    debounce((event) => {
-      const query = event.target.value.toLowerCase();
-
-      if (query.trim() === "") {
-        displayProducts(products, 1);
-        updatePagination(products, 1);
-        return;
-      }
-      navigation.classList.add("d-none");
-      const filterProducts = products.filter((product) => {
-        return (
-          product.name.toLowerCase().includes(query) ||
-          product.description.toLowerCase().includes(query)
-        );
-      });
-      displayProducts(filterProducts, 1);
-      updatePagination(filterProducts, 1);
-    }, 500)
-  );
 
   fetchProducts();
   updateCartOffcanvas();
