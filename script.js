@@ -161,21 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchProduct = null;
   function updatePagination(data, currentPage = 1) {
     const pagination = document.getElementById("pagination");
-    if (data.length === 0) {
-      pagination.innerHTML = `<li class="text-center">
-      <span>Không có sản phẩm nào!</span>
-      <br>
-      <span
-        style="color: #6666c2;
-              text-decoration: underline;
-              cursor: pointer;"
-        onclick="let ipe = document.getElementById('searchInput'); ipe.value = ''; ipe.dispatchEvent(new Event('input'));";
-      >
-        Thoát tìm kiếm
-      </span>
-      </li>`;
-      return;
-    }
     pagination.innerHTML = "";
     const totalPages = Math.ceil(data.length / itemsPerPage);
 
@@ -184,6 +169,25 @@ document.addEventListener("DOMContentLoaded", () => {
       params.set("search", searchProduct);
       params.set("page", currentPage);
       params.delete("product-page");
+      if (data.length === 0) {
+        pagination.innerHTML = `<li class="text-center">
+        <span>Không có sản phẩm nào!</span>
+        <br>
+        <span
+          style="color: #6666c2;
+                text-decoration: underline;
+                cursor: pointer;"
+          onclick="let ipe = document.getElementById('searchInput'); ipe.value = ''; ipe.dispatchEvent(new Event('input'));";
+        >
+          Thoát tìm kiếm
+        </span>
+        </li>`;
+        return;
+      } else {
+        document.getElementById(
+          "searchCount"
+        ).textContent = `${data.length} Sản phẩm`;
+      }
     } else {
       params.set("product-page", currentPage);
       params.delete("search");
@@ -262,6 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (query.trim() === "") {
       searchInput.classList.remove("has-value");
       searchProduct = null;
+      document.getElementById("searchCount").textContent = "";
       displayProducts(products, 1);
       updatePagination(products, 1);
       return;
