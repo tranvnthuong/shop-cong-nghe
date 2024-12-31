@@ -54,10 +54,6 @@ header .nav-link:hover {
   z-index: 1;
 }
 
-#introduce h4 {
-  color: #6666c2;
-}
-
 #introduce p {
   font-weight: bolder;
 }
