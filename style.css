@@ -44,7 +44,35 @@ header .nav-link:hover {
 }
 
 #introduce {
+  position: relative;
   margin-top: 20px;
+  padding: 20px;
+}
+
+#introduce :not(img) {
+  position: relative;
+  z-index: 1;
+}
+
+#introduce p {
+  font-weight: bolder;
+}
+
+#introduce img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  object-fit: cover;
+  opacity: 0.6;
+  z-index: 0;
+  transition: transform 0.8s;
+}
+
+#introduce:hover > img {
+  transform: scale(1.03);
 }
 
 /* Giới thiệu */
@@ -251,6 +279,7 @@ a {
   animation: none;
   background-color: #6666c2;
   border: none;
+  z-index: 10;
 }
 
 .shopping-cart:hover {
