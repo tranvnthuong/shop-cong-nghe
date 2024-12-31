@@ -54,6 +54,10 @@ header .nav-link:hover {
   z-index: 1;
 }
 
+#introduce h4 {
+  color: #6666c2;
+}
+
 #introduce p {
   font-weight: bolder;
 }
@@ -66,13 +70,13 @@ header .nav-link:hover {
   height: 100%;
   border-radius: 5px;
   object-fit: cover;
-  opacity: 0.6;
+  opacity: 0.5;
   z-index: 0;
   transition: transform 0.8s;
 }
 
 #introduce:hover > img {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 /* Giới thiệu */
