@@ -12,4 +12,4 @@ Dynamic store website using responsive bootstrap
 - Proficient in bootstrap 5
 
 ##### Live demo
-[Shop Cong Nghe](https://tranvnthuong.github.io/shopcongnghe)
+[Shop Cong Nghe](https://tranvnthuong.github.io/shop-cong-nghe)
