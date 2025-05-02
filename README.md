@@ -3,7 +3,7 @@ Dynamic store website using responsive bootstrap
 ##### Features
 - Responsive
 - Modern interface
-- Get JSON product data using Fetch API
+- Get product data using Fetch API
 ##### Language
 - Vanilla HTML, CSS, JavaScript
 - Bootstrap 5
