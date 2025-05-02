@@ -11,5 +11,5 @@ Dynamic store website using responsive bootstrap
 - Build a Web App with Vanilla JavaScript and Web Components
 - Proficient in bootstrap 5
 
-##### Live demo with UI
-[Link deployed application](https://tranvnthuong.github.io/shopcongnghe)
+##### Live demo
+[Shop Cong Nghe](https://tranvnthuong.github.io/shopcongnghe)
